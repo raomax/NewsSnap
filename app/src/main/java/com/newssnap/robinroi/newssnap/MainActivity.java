@@ -47,7 +47,6 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             case R.id.Home_button:
                 Intent intent = new Intent(this, HomePage.class);
                 startActivity(intent);
-                finish();
                 break;
         }
     }

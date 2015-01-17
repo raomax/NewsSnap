@@ -4,14 +4,26 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RatingBar;
 
 
-public class HomePage extends ActionBarActivity{
-
+public class HomePage extends ActionBarActivity implements View.OnClickListener{
+    EditText text = null;
+    String textToSend = null;
+    RatingBar ratingBar = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
+        text = (EditText) findViewById(R.id.editTextInput);
+        ratingBar = (RatingBar) findViewById(R.id.ratingBar);
+        ratingBar.setNumStars(0);
+        final Button searchButton = (Button) findViewById(R.id.search_Button);
+        searchButton.setOnClickListener(this);
+
     }
 
 
@@ -37,4 +49,13 @@ public class HomePage extends ActionBarActivity{
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.search_Button:
+               textToSend = text.getText().toString();
+
+        }
+
+    }
 }
