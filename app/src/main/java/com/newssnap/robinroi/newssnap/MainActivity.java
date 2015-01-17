@@ -1,10 +1,12 @@
 package com.newssnap.robinroi.newssnap;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 
 
 public class MainActivity extends ActionBarActivity implements View.OnClickListener {
@@ -13,8 +15,10 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        final Button homeButton = (Button) findViewById(R.id.Home_button);
-//        homeButton.setOnClickListener(this);
+        final Button newUser = (Button) findViewById(R.id.button_New_User);
+        newUser.setOnClickListener(this);
+        final Button login = (Button) findViewById(R.id.button_Login);
+        login.setOnClickListener(this);
     }
 
 
@@ -41,11 +45,14 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     }
     @Override
     public void onClick(View v) {
-//        switch (v.getId()){
-//            case R.id.Home_button:
-//                Intent intent = new Intent(this, HomePage.class);
-//                startActivity(intent);
-//                break;
-//        }
+        switch (v.getId()){
+            case R.id.button_New_User:
+                Intent intent = new Intent(this, NewUser.class);
+                startActivity(intent);
+                break;
+            case R.id.button_Login:
+                break;
+
+        }
     }
 }

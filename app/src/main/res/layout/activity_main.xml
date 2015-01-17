@@ -37,14 +37,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Login"
-        android:id="@+id/button2"
+        android:id="@+id/button_Login"
         android:layout_gravity="center_horizontal" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Create User"
-        android:id="@+id/button"
+        android:id="@+id/button_New_User"
         android:layout_gravity="center_horizontal"
         android:layout_weight="0" />
 </LinearLayout>
