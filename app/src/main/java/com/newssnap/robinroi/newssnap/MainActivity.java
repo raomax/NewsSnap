@@ -1,24 +1,24 @@
 package com.newssnap.robinroi.newssnap;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 
 public class MainActivity extends ActionBarActivity implements View.OnClickListener {
-
+    EditText textInput;
+    public static String userInputText = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        final Button newUser = (Button) findViewById(R.id.button_New_User);
-        newUser.setOnClickListener(this);
-        final Button login = (Button) findViewById(R.id.button_Login);
-        login.setOnClickListener(this);
+        textInput = (EditText) findViewById(R.id.editText_TextInput);
+        final Button button = (Button) findViewById(R.id.button_Check);
+        button.setOnClickListener(this);
     }
 
 
@@ -46,13 +46,14 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.button_New_User:
-                Intent intent = new Intent(this, HomePage.class);
-                startActivity(intent);
+            case R.id.button_Check:
+                userInputText = textInput.getText().toString();
+                try {
+                    Input.main(userInputText);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 break;
-            case R.id.button_Login:
-                break;
-
         }
     }
 }

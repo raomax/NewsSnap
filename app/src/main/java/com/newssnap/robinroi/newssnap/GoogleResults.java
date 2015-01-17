@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package javaapplication3;
+package com.newssnap.robinroi.newssnap;
 
 import java.util.List;
 

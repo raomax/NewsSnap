@@ -4,40 +4,39 @@
  * and open the template in the editor.
  */
 
-package javaapplication3;
+package com.newssnap.robinroi.newssnap;
 
-import java.util.Scanner;
+import android.util.Log;
 
 /**
  *
  * @author Roi
  */
 public class Input {
-    public static void main(String[] args) throws Exception{
-        Scanner scan = new Scanner(System.in);
-        String input = scan.nextLine();
+    public static void main(String input) throws Exception{
+
         long beginTime = System.currentTimeMillis();
-        
-        IsCredible.input = input;
-        IsCredible.removePronouns();
-        String[] websites = IsCredible.getWebsites();
+
+        com.newssnap.robinroi.newssnap.IsCredible.input = input;
+        com.newssnap.robinroi.newssnap.IsCredible.removePronouns();
+        String[] websites = com.newssnap.robinroi.newssnap.IsCredible.getWebsites();
         
         double count = 0;
         double total =0;
         double varianceTotal = 0;
         for(String website:websites){
             //System.out.println(website);
-            if(IsCredible.checkWebsite(website)>-1){
+            if(com.newssnap.robinroi.newssnap.IsCredible.checkWebsite(website)>-1){
             
-                count+=IsCredible.checkWebsite(website);
+                count+= com.newssnap.robinroi.newssnap.IsCredible.checkWebsite(website);
             total++;
-            varianceTotal+=IsCredible.variance;
+            varianceTotal+= com.newssnap.robinroi.newssnap.IsCredible.variance;
             }
         }
         count /=total;
         varianceTotal/=total;
         
-        count*=IsCredible.results();
+        count*= com.newssnap.robinroi.newssnap.IsCredible.results();
         double scalar = (100*Math.pow(input.split(" ").length,1.4)/varianceTotal);
         
         count=scalar*count;
@@ -46,9 +45,9 @@ public class Input {
         if(input.split(" ").length<4){
             count = count/10;
         }
-        System.out.println(count);
+        Log.w("COUNT",""+count);
         count = Math.max(0, Math.min(count, 10));
-        System.out.println(count);
+        Log.w("COUNT",""+count);
         //System.out.println("this took "+ (System.currentTimeMillis()-beginTime)/1000);
         //System.out.println(varianceTotal);
     }

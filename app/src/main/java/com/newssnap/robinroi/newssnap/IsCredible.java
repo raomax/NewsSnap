@@ -3,20 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package javaapplication3;
+package com.newssnap.robinroi.newssnap;
+
+import android.util.Log;
+
+import com.google.gson.Gson;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URL;
 import java.net.URLEncoder;
-import com.google.gson.Gson;
-import java.io.IOException;
-import java.net.URLConnection;
-import java.util.Arrays;
-import java.util.Scanner;
+
 //import javax.swing.text.Document;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 
 /**
  *
@@ -27,9 +28,7 @@ public class IsCredible {
     public static String input;
     public static String[] inputWords;
 //http://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=hello+world
-    /**
-     * @param args the command line arguments
-     */
+
     public static void removePronouns() {
         input = input.replace(" a ", "");
         input = input.replace("the ", "");
@@ -52,7 +51,8 @@ public class IsCredible {
         searchURL = url;
         System.out.println(url.toString());
         Reader reader = new InputStreamReader(url.openStream(), charset);
-        GoogleResults results = new Gson().fromJson(reader, GoogleResults.class);
+        com.newssnap.robinroi.newssnap.GoogleResults results = new Gson().fromJson(reader,
+                com.newssnap.robinroi.newssnap.GoogleResults.class);
 
         // Show title and URL of 1st result.
         //System.out.println(results.getResponseData().getResults().get(0).getTitle());
@@ -96,13 +96,13 @@ public class IsCredible {
         Document text = Jsoup.connect(searchURL.toString()).get();
         String info = text.toString();
         //System.out.println(info);
-        System.out.println(searchURL.toString());
+        Log.w("SEARCHES",searchURL.toString());
         int beginIndex = info.indexOf("resultCount\":") + "resultCount\":".length() + 1;
         int endIndex = info.indexOf("\"", beginIndex);
         String results = (info.substring(beginIndex, endIndex));
         //System.out.println(info);
         results = results.replace(",", "");
-        System.out.println(results);
+        Log.w("RESULTS",results);
         return Math.min(Math.log(Double.parseDouble(results)) / 5, 1.6);
         //System.out.println(results);
     }

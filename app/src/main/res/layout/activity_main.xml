@@ -8,43 +8,30 @@
     android:weightSum="1"
     android:background="#ffffec92">
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight="0.39" />
-
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/userName"
-        android:background="#ffadff4e"
-        android:text="User Name: "
-        android:layout_weight="0.06" />
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
+        android:inputType="textMultiLine"
         android:ems="10"
-        android:id="@+id/password"
+        android:id="@+id/editText_TextInput"
         android:layout_gravity="center_horizontal"
-        android:background="#ffff8d71"
-        android:layout_weight="0.06"
-        android:text="Password" />
+        android:background="#ff75ff46"
+        android:layout_weight="0.05" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Login"
-        android:id="@+id/button_Login"
-        android:layout_gravity="center_horizontal" />
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Create User"
-        android:id="@+id/button_New_User"
+        android:text="Check"
+        android:id="@+id/button_Check"
         android:layout_gravity="center_horizontal"
-        android:layout_weight="0" />
+        android:layout_weight="0.05" />
+
+    <RatingBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ratingBarShowRating"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.05"
+        android:clickable="false" />
+
 </LinearLayout>
