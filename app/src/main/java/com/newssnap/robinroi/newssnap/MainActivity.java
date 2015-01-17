@@ -47,7 +47,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.button_New_User:
-                Intent intent = new Intent(this, NewUser.class);
+                Intent intent = new Intent(this, HomePage.class);
                 startActivity(intent);
                 break;
             case R.id.button_Login:
