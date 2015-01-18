@@ -8,6 +8,12 @@
     android:weightSum="1"
     android:background="#ffffec92">
 
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.31" />
+
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,7 +22,8 @@
         android:id="@+id/editText_TextInput"
         android:layout_gravity="center_horizontal"
         android:background="#ff75ff46"
-        android:layout_weight="0.05" />
+        android:layout_weight="0.05"
+        android:text="Enter String Here:" />
 
     <Button
         android:layout_width="match_parent"
@@ -24,14 +31,16 @@
         android:text="Check"
         android:id="@+id/button_Check"
         android:layout_gravity="center_horizontal"
-        android:layout_weight="0.05" />
-
-    <RatingBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/ratingBarShowRating"
-        android:layout_gravity="center_horizontal"
         android:layout_weight="0.05"
-        android:clickable="false" />
+        android:layout_marginTop="20dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/textView"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.125"
+        android:layout_marginTop="20dp" />
 
 </LinearLayout>

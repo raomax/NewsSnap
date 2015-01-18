@@ -28,12 +28,14 @@ import java.util.Arrays;
  */
 public class IsCredible {
 
+    private static final int MAX_WORD_SPACE = 100;
     public static String input;
     public static String[] inputWords;
-    static String stopWords = "a,able,about,across,after,all,almost,also,am,among,an,and" +
+    public static int variance;
+    private static String stopWords = "a,able,about,across,after,all,almost,also,am,among,an,and" +
             ",any,are,as,at,be,because,been,but,by,can,cannot,could,dear,did,do,does,either,else," +
             "ever,every,for,from,get,got,had,has,have,he,her,hers,him,his,how,however,i,if,in,into," +
-            "is,it,its,just,least,let,like,likely,may,me,might,most,must,my,neither,no,nor,not,of," +
+            "is,it,its,just,least,let,like,likely,may,me,might,most,must,my,neither,no,nor,of," +
             "off,often,on,only,or,other,our,own,rather,said,say,says,she,should,since,so,some,than" +
             ",that,the,their,them,then,there,these,they,this,tis,to,too,twas,us,wants,was,we,were," +
             "what,when,where,which,while,who,whom,why,will,with,would,yet,you,your";
@@ -47,6 +49,7 @@ public class IsCredible {
         String google = "http://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=";
 
         String search = input;
+        input =input.trim();
         input = removeStopWords(input);
 
         //System.out.println(search);
@@ -89,27 +92,36 @@ public class IsCredible {
         return Math.min(Math.log(Double.parseDouble(results)) / 5, 1.6);
         //System.out.println(results);
     }
-    public static int calcVariance(int[] positions){
-        int sum = 0;
-        for(int num: positions){
-            sum+= num;
+    public static int calcVariance(ArrayList<Integer> positions){
+        int cred = 0;
+        int wordDistance = 0;
+        int length = positions.size();
+        for(int i=0;i<length;i++){
+            if(i==length-1){
+                wordDistance+=0;
+            }else if(positions.get(i+1)-positions.get(i)>MAX_WORD_SPACE){
+                wordDistance+=0;
+                length--;
+            }else {
+                wordDistance+= Math.abs(positions.get(i+1)-positions.get(i));
+            }
         }
-        double mean= sum/positions.length;
-        sum=0;
-        for(int num:positions){
-          sum+=Math.pow((num-mean), 2);
-        }
-        sum/=(positions.length-1);
-        sum = (int)Math.pow(sum, .5);
-        return (int)Math.max(sum,.001);
+        double mean= wordDistance/length;
+        Log.i("CREDIBILITY_RAW_WORD_DISTANCE_AVERAGE",mean+"");
+        cred = (int)(mean);
+
+        cred= (int)Math.pow(cred, .5);
+        cred = (int)Math.max(cred,.001);
+        Log.i("CREDIBILITY_CALCVARIANCE METHOD",cred+"");
+        return cred;
     }
-    public static int variance;
+
     public static int checkWebsite(String website) throws Exception {
         int rating = 5;
         try {
             String url = website;
                 if (url.contains("org") || url.contains("edu")) {
-                    rating *= 2;
+                    rating *= 3;
                 } else if (url.contains(".gov")) {
                     rating *= 5;
             }
@@ -117,17 +129,18 @@ public class IsCredible {
              String info = text.toString();*/
             String[] words = websiteDatatoStringArray(website);
 
-            ArrayList websiteWords = new ArrayList<String>(Arrays.asList(words));
-            int[] positions = new int[inputWords.length];
+            ArrayList websiteWords = new ArrayList(Arrays.asList(words));
+            ArrayList wordPositions = new ArrayList<Integer>();
             for (int i = 0; i < inputWords.length; i++) {
-                for (int j = 0; j < words.length; j++) {
-                    if (inputWords[i].equalsIgnoreCase(words[j])) {
-                        positions[i] = j;
+                for (int j = 0; j < websiteWords.size(); j++) {
+                    if (inputWords[i].equalsIgnoreCase(websiteWords.get(j).toString())) {
+                        websiteWords.remove(j);
+                        wordPositions.add(j);
                     }
                 }
             }
             //System.out.println(Arrays.toString(positions));
-            variance = calcVariance(positions);
+            variance = calcVariance(wordPositions);
 
             int total = 0;
             int count = words.length;
@@ -150,19 +163,20 @@ public class IsCredible {
     private static String[] websiteDatatoStringArray(String website) throws IOException {
         Document doc = Jsoup.connect(website).get();
         String textContents = doc.text().toString();
+        textContents = textContents.trim();
         textContents = removeStopWords(textContents);
         //System.out.println(textContents);
         inputWords = input.split(" ");
         return textContents.split(" ");
     }
 
-    private static ArrayList<String> findMatchedWords(String[] website){
-        ArrayList matchedWords = new ArrayList<String>();
-        return null;
-    }
+//    private static ArrayList<String> findMatchedWords(String[] website){
+//        ArrayList matchedWords = new ArrayList<String>();
+//        return null;
+//    }
     public static String removeStopWords(String input) {
         for(String stop:stopWrds){
-                input = input.replace((" "+stop)+" ", " ");
+                input = input.replace((" "+stop)+" ", "");
             }
         return input;
     }

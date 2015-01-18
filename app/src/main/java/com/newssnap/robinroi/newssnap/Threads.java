@@ -22,7 +22,6 @@ public class Threads extends Thread {
     @Override
     public void run() {
         double count = 0;
-        double total =0;
         double varianceTotal = 0;
         try {
             if(IsCredible.checkWebsite(url)>-1){
@@ -39,16 +38,16 @@ public class Threads extends Thread {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        double scalar = (Math.pow(input.split(" ").length,2)/varianceTotal);
+        double scalar = (Math.pow(input.split(" ").length,1.8)/varianceTotal);
 
         count=scalar*count;
 
         //System.out.println(IsCredible.checkWebsite("http://en.wikipedia.org/wiki/%22Hello,_world!%22_program"));
         if(input.split(" ").length<4){
-            count = count/10;
+          count= count/10;
         }
 
         Input.count[index] = count;
-        Log.w("COUNT_ON" + index, count + "");
+       Log.i("COUNT_ON" + index, count + "");
     }
 }

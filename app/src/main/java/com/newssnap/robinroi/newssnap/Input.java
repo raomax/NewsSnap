@@ -34,19 +34,19 @@ public class Input {
 
         int length = count.length;
         for(double i:count){
-            if(Double.isNaN(i)){
-                length--;
+            if(Double.isNaN(i)||i>=Double.MAX_VALUE){
+                length--;                
             }else if(length ==0){
                 sum = -1;
             }else
                 sum+=i;
         }
-        Log.w("COUNT_SUM", sum+"");
-        Log.w("COUNT_LENGTH", length+"");
+        Log.i("COUNT_SUM", sum+"");
+        Log.i("COUNT_LENGTH", length+"");
         sum/=length;
-        sum *=15;
+        sum *=10;
         sum = Math.max(Math.min(10,sum),0);
-
+        Log.i("COUNT_SUM", sum+"");
 
 
     }
