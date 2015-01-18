@@ -9,10 +9,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 
 public class MainActivity extends ActionBarActivity implements View.OnClickListener {
     EditText textInput;
+    TextView rating;
     public static String userInputText = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +22,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         textInput = (EditText) findViewById(R.id.editText_TextInput);
         final Button button = (Button) findViewById(R.id.button_Check);
+        rating = (TextView) findViewById(R.id.textView_Rating);
         textInput.setOnClickListener(this);
         button.setOnClickListener(this);
     }
@@ -52,6 +55,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             case R.id.button_Check:
                 userInputText = textInput.getText().toString();
                 new CheckCredibility().execute();
+                rating.setText("Loading...");
                 Log.i("BUTTON_PRESSED",userInputText);
                 break;
             case R.id.editText_TextInput:
@@ -69,6 +73,12 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 e.printStackTrace();
             }
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            rating.setText(Input.sum+"/10");
         }
     }
 }

@@ -25,9 +25,12 @@ public class Threads extends Thread {
         double varianceTotal = 0;
         try {
             if(IsCredible.checkWebsite(url)>-1){
-
-                count= IsCredible.checkWebsite(url);
-                varianceTotal = IsCredible.variance;
+                try {
+                    count = IsCredible.checkWebsite(url);
+                    varianceTotal = IsCredible.variance;
+                }catch (NumberFormatException e){
+                    Log.e("Number Format Exception","Google is being stupid again");
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();

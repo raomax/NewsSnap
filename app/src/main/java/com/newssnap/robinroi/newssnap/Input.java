@@ -33,21 +33,20 @@ public class Input {
         t4.join();
 
         int length = count.length;
-        for(double i:count){
-            if(Double.isNaN(i)||i>=Double.MAX_VALUE){
-                length--;                
+        for(int i=0;i<length;i++){
+            if(Double.isNaN(count[i])||i>=Double.MAX_VALUE){
+                length--;
+                count[i]=0;
             }else if(length ==0){
-                sum = -1;
+                sum = 0;
             }else
                 sum+=i;
         }
         Log.i("COUNT_SUM", sum+"");
         Log.i("COUNT_LENGTH", length+"");
+        sum *=12;
         sum/=length;
-        sum *=10;
         sum = Math.max(Math.min(10,sum),0);
         Log.i("COUNT_SUM", sum+"");
-
-
     }
 }
