@@ -15,9 +15,9 @@ import android.util.Log;
 public class Input {
     public static String[] websites;
     public static double [] count = new double[4];
+    public static double sum = 0;
     public static void main(String input) throws Exception{IsCredible.input = input;
-        double sum = 0;
-        IsCredible.removePronouns();
+
        websites = IsCredible.getWebsites();
         Threads t1 = new Threads(websites[0],input,0);
         Threads t2 = new Threads(websites[1],input,1);
@@ -31,10 +31,22 @@ public class Input {
         t2.join();
         t3.join();
         t4.join();
+
+        int length = count.length;
         for(double i:count){
-            sum+=i;
+            if(Double.isNaN(i)){
+                length--;
+            }else if(length ==0){
+                sum = -1;
+            }else
+                sum+=i;
         }
-        Log.w("COUNT SUM",""+sum);
+        Log.w("COUNT_SUM", sum+"");
+        Log.w("COUNT_LENGTH", length+"");
+        sum/=length;
+        sum *=15;
+        sum = Math.max(Math.min(10,sum),0);
+
 
 
     }

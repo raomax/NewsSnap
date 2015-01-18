@@ -9,15 +9,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RatingBar;
 
 
 public class MainActivity extends ActionBarActivity implements View.OnClickListener {
     EditText textInput;
+    RatingBar textRating;
     public static String userInputText = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        textRating = (RatingBar) findViewById(R.id.ratingBarShowRating);
         textInput = (EditText) findViewById(R.id.editText_TextInput);
         final Button button = (Button) findViewById(R.id.button_Check);
         button.setOnClickListener(this);
@@ -51,7 +54,9 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             case R.id.button_Check:
                 userInputText = textInput.getText().toString();
                 new CheckCredibility().execute();
+                textRating.setNumStars((int) (Input.sum/10));
                 Log.w("BUTTON_PRESSED",userInputText);
+
                 break;
         }
     }

@@ -18,6 +18,7 @@ import java.io.Reader;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 //import javax.swing.text.Document;
 
@@ -29,16 +30,16 @@ public class IsCredible {
 
     public static String input;
     public static String[] inputWords;
+    static String stopWords = "a,able,about,across,after,all,almost,also,am,among,an,and" +
+            ",any,are,as,at,be,because,been,but,by,can,cannot,could,dear,did,do,does,either,else," +
+            "ever,every,for,from,get,got,had,has,have,he,her,hers,him,his,how,however,i,if,in,into," +
+            "is,it,its,just,least,let,like,likely,may,me,might,most,must,my,neither,no,nor,not,of," +
+            "off,often,on,only,or,other,our,own,rather,said,say,says,she,should,since,so,some,than" +
+            ",that,the,their,them,then,there,these,they,this,tis,to,too,twas,us,wants,was,we,were," +
+            "what,when,where,which,while,who,whom,why,will,with,would,yet,you,your";
+    private static String[]stopWrds = stopWords.split(",");
 //http://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=hello+world
 
-    public static void removePronouns() {
-        input = input.replace(" a ", "");
-        input = input.replace(" the ", "");
-        input = input.replace(" it ", "");
-        input = input.replace(" he ", "");
-        input = input.replace(" she ", "");
-        
-    }
     static URL searchURL;
 
     public static String[] getWebsites() throws Exception {
@@ -46,6 +47,8 @@ public class IsCredible {
         String google = "http://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=";
 
         String search = input;
+        input = removeStopWords(input);
+
         //System.out.println(search);
         String charset = "UTF-8";
 
@@ -72,27 +75,6 @@ public class IsCredible {
         return websites;
 
     }
-
-    /*public static int getResultsCount(final String query) throws IOException {
-     final URL url = new URL("https://www.google.com/search?q=" + URLEncoder.encode(query, "UTF-8"));
-     final URLConnection connection = url.openConnection();
-     connection.setConnectTimeout(60000);
-     connection.setReadTimeout(60000);
-     connection.addRequestProperty("User-Agent", "Mozilla/5.0");
-     final Scanner reader = new Scanner(connection.getInputStream(), "UTF-8");
-     while(reader.hasNextLine()){
-     final String line = reader.nextLine();
-     if(!line.contains("<div id=\"resultStats\">"))
-     continue;
-     try{
-     return Integer.parseInt(line.split("<div id=\"resultStats\">")[1].split("<")[0].replaceAll("[^\\d]", ""));
-     }finally{
-     reader.close();
-     }
-     }
-     reader.close();
-     return 0;
-     }*/
     public static double results() throws Exception {
         Document text = Jsoup.connect(searchURL.toString()).get();
         String info = text.toString();
@@ -119,7 +101,7 @@ public class IsCredible {
         }
         sum/=(positions.length-1);
         sum = (int)Math.pow(sum, .5);
-        return (int)sum;
+        return (int)Math.max(sum,.001);
     }
     public static int variance;
     public static int checkWebsite(String website) throws Exception {
@@ -127,13 +109,15 @@ public class IsCredible {
         try {
             String url = website;
                 if (url.contains("org") || url.contains("edu")) {
-                    rating *= 1.3;
+                    rating *= 2;
                 } else if (url.contains(".gov")) {
-                    rating *= 1.4;
+                    rating *= 5;
             }
             /*Document text = Jsoup.connect(url).get();
              String info = text.toString();*/
             String[] words = websiteDatatoStringArray(website);
+
+            ArrayList websiteWords = new ArrayList<String>(Arrays.asList(words));
             int[] positions = new int[inputWords.length];
             for (int i = 0; i < inputWords.length; i++) {
                 for (int j = 0; j < words.length; j++) {
@@ -166,6 +150,7 @@ public class IsCredible {
     private static String[] websiteDatatoStringArray(String website) throws IOException {
         Document doc = Jsoup.connect(website).get();
         String textContents = doc.text().toString();
+        textContents = removeStopWords(textContents);
         //System.out.println(textContents);
         inputWords = input.split(" ");
         return textContents.split(" ");
@@ -174,5 +159,11 @@ public class IsCredible {
     private static ArrayList<String> findMatchedWords(String[] website){
         ArrayList matchedWords = new ArrayList<String>();
         return null;
+    }
+    public static String removeStopWords(String input) {
+        for(String stop:stopWrds){
+                input = input.replace((" "+stop)+" ", " ");
+            }
+        return input;
     }
 }

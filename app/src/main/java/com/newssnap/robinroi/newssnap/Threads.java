@@ -1,5 +1,7 @@
 package com.newssnap.robinroi.newssnap;
 
+import android.util.Log;
+
 /**
  * Created by Robin Onsay on 1/17/2015.
  */
@@ -37,7 +39,7 @@ public class Threads extends Thread {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        double scalar = (100*Math.pow(input.split(" ").length,1.4)/varianceTotal);
+        double scalar = (Math.pow(input.split(" ").length,2)/varianceTotal);
 
         count=scalar*count;
 
@@ -45,10 +47,8 @@ public class Threads extends Thread {
         if(input.split(" ").length<4){
             count = count/10;
         }
-        count = Math.max(0, Math.min(count, 10));
+
         Input.count[index] = count;
-
+        Log.w("COUNT_ON" + index, count + "");
     }
-
-
 }
