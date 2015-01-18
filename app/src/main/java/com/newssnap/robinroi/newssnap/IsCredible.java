@@ -12,10 +12,12 @@ import com.google.gson.Gson;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 
 //import javax.swing.text.Document;
 
@@ -31,10 +33,10 @@ public class IsCredible {
 
     public static void removePronouns() {
         input = input.replace(" a ", "");
-        input = input.replace("the ", "");
-        input = input.replace("it ", "");
-        input = input.replace("he ", "");
-        input = input.replace("she ", "");
+        input = input.replace(" the ", "");
+        input = input.replace(" it ", "");
+        input = input.replace(" he ", "");
+        input = input.replace(" she ", "");
         
     }
     static URL searchURL;
@@ -49,7 +51,6 @@ public class IsCredible {
 
         URL url = new URL(google + URLEncoder.encode(search, charset));
         searchURL = url;
-        System.out.println(url.toString());
         Reader reader = new InputStreamReader(url.openStream(), charset);
         com.newssnap.robinroi.newssnap.GoogleResults results = new Gson().fromJson(reader,
                 com.newssnap.robinroi.newssnap.GoogleResults.class);
@@ -125,18 +126,14 @@ public class IsCredible {
         int rating = 5;
         try {
             String url = website;
-            if (url.contains("org") || url.contains("edu")) {
-                rating *= 1.3;
-            } else if (url.contains(".gov")) {
-                rating *= 1.4;
+                if (url.contains("org") || url.contains("edu")) {
+                    rating *= 1.3;
+                } else if (url.contains(".gov")) {
+                    rating *= 1.4;
             }
             /*Document text = Jsoup.connect(url).get();
              String info = text.toString();*/
-            Document doc = Jsoup.connect(website).get();
-            String textContents = doc.text().toString();
-            //System.out.println(textContents);
-            String[] words = textContents.split(" ");
-            inputWords = input.split(" ");
+            String[] words = websiteDatatoStringArray(website);
             int[] positions = new int[inputWords.length];
             for (int i = 0; i < inputWords.length; i++) {
                 for (int j = 0; j < words.length; j++) {
@@ -166,4 +163,16 @@ public class IsCredible {
         }
     }
 
+    private static String[] websiteDatatoStringArray(String website) throws IOException {
+        Document doc = Jsoup.connect(website).get();
+        String textContents = doc.text().toString();
+        //System.out.println(textContents);
+        inputWords = input.split(" ");
+        return textContents.split(" ");
+    }
+
+    private static ArrayList<String> findMatchedWords(String[] website){
+        ArrayList matchedWords = new ArrayList<String>();
+        return null;
+    }
 }

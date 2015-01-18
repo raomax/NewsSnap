@@ -1,7 +1,9 @@
 package com.newssnap.robinroi.newssnap;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -48,12 +50,21 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         switch (v.getId()){
             case R.id.button_Check:
                 userInputText = textInput.getText().toString();
-                try {
-                    Input.main(userInputText);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                new CheckCredibility().execute();
+                Log.w("BUTTON_PRESSED",userInputText);
                 break;
+        }
+    }
+    private class CheckCredibility extends AsyncTask<Void,Void,Void>{
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                Input.main(userInputText);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
         }
     }
 }
