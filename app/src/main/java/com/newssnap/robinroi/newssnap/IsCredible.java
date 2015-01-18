@@ -50,7 +50,6 @@ public class IsCredible {
 
         String search = input;
         input =input.trim();
-        input = removeStopWords(input);
 
         //System.out.println(search);
         String charset = "UTF-8";
@@ -74,7 +73,7 @@ public class IsCredible {
                 websites[i]="";
             }
         }
-
+        input = removeStopWords(input);
         return websites;
 
     }
@@ -124,7 +123,10 @@ public class IsCredible {
                     rating *= 3;
                 } else if (url.contains(".gov")) {
                     rating *= 5;
+                }else{
+                rating *=.5;
             }
+
             /*Document text = Jsoup.connect(url).get();
              String info = text.toString();*/
             String[] words = websiteDatatoStringArray(website);

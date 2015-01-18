@@ -13,8 +13,9 @@ import android.widget.TextView;
 
 
 public class MainActivity extends ActionBarActivity implements View.OnClickListener {
+    boolean loading = false;
     EditText textInput;
-    TextView rating;
+    private TextView rating;
     public static String userInputText = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +56,26 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             case R.id.button_Check:
                 userInputText = textInput.getText().toString();
                 new CheckCredibility().execute();
-                rating.setText("Loading...");
+                while (loading){
+                    rating.setText("Loading.");
+                    try {
+                        Thread.sleep((long) 100.0);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    rating.setText("Loading..");
+                    try {
+                        Thread.sleep((long) 100.0);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    rating.setText("Loading...");
+                    try {
+                        Thread.sleep((long) 100.0);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
                 Log.i("BUTTON_PRESSED",userInputText);
                 break;
             case R.id.editText_TextInput:
@@ -64,6 +84,11 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         }
     }
     private class CheckCredibility extends AsyncTask<Void,Void,Void>{
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            loading = true;
+        }
 
         @Override
         protected Void doInBackground(Void... params) {
@@ -78,6 +103,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            loading = false;
             rating.setText(Input.sum+"/10");
         }
     }
